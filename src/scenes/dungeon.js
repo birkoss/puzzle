@@ -5,6 +5,7 @@ import { Tile } from "../grid/tile.js";
 import { Panel } from "../ui/panel.js";
 import { Skills } from "../skills.js";
 import { Grid } from "../grid/grid.js";
+import { UI_ASSET_KEYS } from "../keys/asset.js";
 
 export class DungeonScene extends Phaser.Scene {
     // TODO: Create a panel class to inherit both
@@ -15,6 +16,9 @@ export class DungeonScene extends Phaser.Scene {
 
     /** @type {Grid} */
     #grid;
+
+    /** @type {Phaser.GameObjects.Zone} */
+    #noClick;
 
     constructor() {
         super({
@@ -40,16 +44,6 @@ export class DungeonScene extends Phaser.Scene {
         this.#skills.addSkill("destroy_everything");
         this.#skills.addSkill("convert_gold_to_exp");
         this.#skills.addSkill("gold_value");
-
-        // this.time.delayedCall(800, () => {
-        //     let popup = new Popup(this, (skillId) => {
-        //         console.log(skillId);
-        //         this.#skills.addSkill(skillId);
-
-        //         popup.hide();
-        //     });
-        //     popup.show();
-        // });
     }
 
     /**
@@ -70,8 +64,23 @@ export class DungeonScene extends Phaser.Scene {
         }
     }
 
+    #enableClick() {
+        this.#noClick.destroy();
+    }
+
+    #disableClick() {
+        this.#noClick = this.add.zone(0, 0, this.scale.width, this.scale.height).setOrigin(0);
+        this.#noClick.setInteractive();
+        this.#noClick.on('pointerdown', (pointer, x, y, event) => {
+            event.stopPropagation();
+        });
+        this.#noClick.on('pointerup', (pointer, x, y, event) => {
+            event.stopPropagation();
+        });
+    }
+
     #tileSelected(tile) {
-        // Disable PANEL click
+        this.#disableClick();
     }
 
     /**
@@ -79,7 +88,7 @@ export class DungeonScene extends Phaser.Scene {
      */
     #useSkill(skillId) {
         console.log(this);
-        this.#grid.disableSelect();
+        this.#disableClick();
         console.log("USE SKILL: " + skillId);
     }
 
@@ -95,7 +104,7 @@ export class DungeonScene extends Phaser.Scene {
 
         this.#skills.endTurn();
 
-        this.#grid.enableSelect();
+        this.#enableClick();
     }
 
 }

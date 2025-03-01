@@ -21,9 +21,6 @@ export class Grid {
     /** @type {Phaser.GameObjects.Container} */
     #container;
 
-    /** @type {Boolean} */
-    #canSelect;
-
     /** @type {Tile[]} */
     #tiles;
     /** @type {Tile} */
@@ -31,8 +28,11 @@ export class Grid {
     /** @type {Block[]} */
     #blocksPooled;
 
+    /** @type {(tile:Tile) => void} */
     #callbackTileSelected;
+    /** @type {() => void} */
     #callbackEndOfTurn;
+    /** @type {(Object) => void} */
     #callbackStreaks;
 
 
@@ -50,7 +50,6 @@ export class Grid {
 
         this.#tiles = [];
         this.#blocksPooled = [];
-        this.#canSelect = true;
         this.#selectedTile = null;
     }
 
@@ -90,6 +89,7 @@ export class Grid {
         }
 
         // Create a mask for the container (Hide reused tiles)
+        // TODO: Fix bottom mask, last tiles trimmed
         const mask = this.#scene.add.graphics()
             .fillStyle(0x000000, 0)
             .fillRect(this.#container.x, this.#container.y, this.#container.getBounds().width, this.#container.getBounds().height);
@@ -98,14 +98,6 @@ export class Grid {
         // Enable click
         this.#scene.input.on("pointerdown", this.#selectTile, this);
         this.#scene.input.on("pointerup", this.#unselectTile, this);
-    }
-
-    disableSelect() {
-        this.#canSelect = false;
-    }
-
-    enableSelect() {
-        this.#canSelect = true;
     }
 
     reset() {
@@ -550,10 +542,6 @@ export class Grid {
      * @param {Phaser.Input.Pointer} pointer 
      */
     #selectTile(pointer) {
-        if (!this.#canSelect) {
-            return;
-        }
-
         let x = Math.floor((pointer.x - this.#container.x) / TILE_SIZE);
         let y = Math.floor((pointer.y - this.#container.y) / TILE_SIZE);
 
@@ -583,9 +571,6 @@ export class Grid {
      * @param {Phaser.Input.Pointer} pointer 
      */
     #unselectTile(pointer) {
-        if (!this.#canSelect) {
-            return;
-        }
         if (this.#selectedTile === null) {
             return;
         }
@@ -607,7 +592,6 @@ export class Grid {
             if (this.#callbackTileSelected) {
                 this.#callbackTileSelected(tile);
             }
-            this.#canSelect = false;
 
             let streak = {
                 bonus: 1,

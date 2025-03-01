@@ -2,9 +2,9 @@ import Phaser from "../lib/phaser.js";
 
 import { SCENE_KEYS } from "../keys/scene.js";
 import { FONT_ASSET_KEYS, BLOCK_ASSET_KEYS, MAP_ASSET_KEYS } from "../keys/asset.js";
-import { Tile } from "../tile.js";
-import { Block } from "../block.js";
-import { Panel } from "../panel.js";
+import { Tile } from "../grid/tile.js";
+import { Block } from "../grid/block.js";
+import { Panel } from "../ui/panel.js";
 import { Skills } from "../skills.js";
 
 const TILE_SIZE = 36;

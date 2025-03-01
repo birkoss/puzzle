@@ -1,4 +1,4 @@
-import { PANEL_ASSET_KEYS, UNIT_ASSET_KEYS } from "./keys/asset.js";
+import { PANEL_ASSET_KEYS, UNIT_ASSET_KEYS } from "../keys/asset.js";
 
 export class Panel {
 

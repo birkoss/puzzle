@@ -1,12 +1,11 @@
 import Phaser from "../lib/phaser.js";
 
 import { SCENE_KEYS } from "../keys/scene.js";
-import { FONT_ASSET_KEYS, BLOCK_ASSET_KEYS, UI_ASSET_KEYS, MAP_ASSET_KEYS, PANEL_ASSET_KEYS } from "../keys/asset.js";
+import { FONT_ASSET_KEYS, BLOCK_ASSET_KEYS, MAP_ASSET_KEYS } from "../keys/asset.js";
 import { Tile } from "../tile.js";
 import { Block } from "../block.js";
 import { Panel } from "../panel.js";
 import { Skills } from "../skills.js";
-import { Popup } from "../popup.js";
 
 const TILE_SIZE = 36;
 
@@ -55,7 +54,7 @@ export class DungeonScene extends Phaser.Scene {
         this.input.on("pointerdown", this.#selectTile, this);
         this.input.on("pointerup", this.#unselectTile, this);
 
-        this.#skills = new Skills(this, 0, this.game.scale.height);
+        this.#skills = new Skills(this, 0, this.game.scale.height, this.#useSkill.bind(this));
         this.#skills.container.y -= this.#skills.container.getBounds().height;
 
         this.#skills.addSkill("destroy_everything");
@@ -72,6 +71,13 @@ export class DungeonScene extends Phaser.Scene {
         //     popup.show();
         // });
     }
+
+    #useSkill(skillId) {
+        console.log(this);
+        this.#canSelect = false;
+        console.log("USE SKILL: " + skillId, this.#canSelect);
+    }
+
 
     /**
      * Create the tiles and blocks for the dungeon
@@ -369,7 +375,6 @@ export class DungeonScene extends Phaser.Scene {
             }
         }
     }
-
 
     #endTurn() {
         console.log("DUNGEON-SCENE: END TURN");

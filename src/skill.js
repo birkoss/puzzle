@@ -34,6 +34,8 @@ export class Skill {
         if (data.cooldown) {
             this.#maxCooldown = data.cooldown;
             this.#cooldown = data.cooldown;
+            // TODO: Remove this line
+            this.#cooldown = 0;
         }
 
         this.#container = this.#scene.add.container(0, 0);

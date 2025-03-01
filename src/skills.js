@@ -33,14 +33,19 @@ export class Skills {
     /** @type {Skill[]} */
     #skills;
 
+    /** @type {(skillId: string) => void} */
+    #callback;
+
     /**
-     * @param {Phaser.Scene} scene - The scene this panel belongs to
-     * @param {number} x - The x coordinate of the tile on the grid
-     * @param {number} y - The y coordinate of the tile on the grid
+     * @param {Phaser.Scene} scene
+     * @param {number} x
+     * @param {number} y
+     * @param {(skillId: string) => void} [callback]
      */
-    constructor(scene, x, y) {
+    constructor(scene, x, y, callback) {
         this.#scene = scene;
         this.#container = scene.add.container(x, y);
+        this.#callback = callback;
         this.#skills = [];
 
         this.#initializeToggle();
@@ -88,7 +93,9 @@ export class Skills {
             () => {
                 this.#skills[parseInt(this.#toggle.getSelectedValue())].use();
                 this.#updateBtnUseLabel();
-                console.log("USE SKILL: " + this.#skills[parseInt(this.#toggle.getSelectedValue())].id);
+                if (this.#callback) {
+                    this.#callback(this.#skills[parseInt(this.#toggle.getSelectedValue())].id);
+                }
             }
         );
 

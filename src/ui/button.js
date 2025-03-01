@@ -73,16 +73,13 @@ export class Button {
     }
 
     activate() {
-        console.log("ACTIVATE");
         this.#isActive = true;
         this.container.setAlpha(1);
     }
 
     desactivate() {
-        console.log("DESACTIVATE", this.container.alpha);
         this.#isActive = false;
         this.container.setAlpha(0.5);
-        console.log("AFTER: " + this.container.alpha);
     }
 
     setText(text) {

@@ -2,17 +2,22 @@ import { MAP_ASSET_KEYS, UI_ASSET_KEYS } from "./keys/asset.js";
 import { Data } from "./utils/data.js";
 
 export class Skill {
+    /** @type {Phaser.Scene} */
+    #scene;
+    /** @type {string} */
+    #id;
+
     /** @type {Phaser.GameObjects.Container} */
     #container;
 
-    #scene;
-    #id;
-
+    /** @type {Phaser.GameObjects.BitmapText} */
     #textCoolDown;
-
+    /** @type {number} */
     #cooldown;
+    /** @type {number} */
     #maxCooldown;
 
+    /** @type {Phaser.GameObjects.Graphics} */
     #graphics;
 
     /**
@@ -29,8 +34,6 @@ export class Skill {
         if (data.cooldown) {
             this.#maxCooldown = data.cooldown;
             this.#cooldown = data.cooldown;
-
-            this.#cooldown = 1;
         }
 
         this.#container = this.#scene.add.container(0, 0);

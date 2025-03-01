@@ -1,11 +1,9 @@
 import Phaser from "../lib/phaser.js";
 
 import { SCENE_KEYS } from "../keys/scene.js";
-import { Tile } from "../grid/tile.js";
 import { Panel } from "../ui/panel.js";
 import { Skills } from "../skills.js";
 import { Grid } from "../grid/grid.js";
-import { UI_ASSET_KEYS } from "../keys/asset.js";
 
 export class DungeonScene extends Phaser.Scene {
     // TODO: Create a panel class to inherit both
@@ -87,7 +85,6 @@ export class DungeonScene extends Phaser.Scene {
      * @param {string} skillId
      */
     #useSkill(skillId) {
-        console.log(this);
         this.#disableClick();
         console.log("USE SKILL: " + skillId);
     }

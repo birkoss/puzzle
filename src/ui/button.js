@@ -1,6 +1,6 @@
 import Phaser from "../lib/phaser.js";
 
-import { BLOCK_ASSET_KEYS, UI_ASSET_KEYS } from "../keys/asset.js";
+import { UI_ASSET_KEYS } from "../keys/asset.js";
 
 export class Button {
     /** @type {Phaser.Scene} */

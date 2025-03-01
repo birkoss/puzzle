@@ -1,0 +1,69 @@
+[
+    {
+        "id": "collect_gold",
+        "description": "Collect all gold",
+        "cooldown": 7
+    },{
+        "id": "collect_ext",
+        "description": "Collect all XP",
+        "cooldown": 7
+    },{
+        "id": "collect_potion",
+        "description": "Collect all potion",
+        "cooldown": 7
+    },{
+        "id": "collect_enemy",
+        "description": "Destroy all enemies",
+        "cooldown": 10
+    },{
+        "id": "convert_gold_to_exp",
+        "description": "Convert all gold to experience",
+        "cooldown": 7
+    },{
+        "id": "convert_exp_to_gold",
+        "description": "Convert all experience to gold",
+        "cooldown": 7
+    },{
+        "id": "convert_potion_to_gold",
+        "description": "Convert all potion to gold",
+        "cooldown": 7
+    },{
+        "id": "convert_gold_to_potion",
+        "description": "Convert all gold to potion",
+        "cooldown": 7
+    },{
+        "id": "more_gold",
+        "description": "Gold have 10% more chance to spawn"
+    },{
+        "id": "more_exp",
+        "description": "Experience have 10% more chance to spawn"
+    },{
+        "id": "more_potion",
+        "description": "Potion have 10% more chance to spawn"
+    },{
+        "id": "destroy_everything",
+        "description": "Destroy everything",
+        "cooldown": 15
+    },{
+        "id": "gold_value",
+        "description": "Gold get you more value"
+    },{
+        "id": "potion_value",
+        "description": "Potion get you more value"
+    },{
+        "id": "exp_value",
+        "description": "Experience get you more value"
+    },{
+        "id": "spawn_gold",
+        "description": "Add gold randomly",
+        "cooldown": 7
+    },{
+        "id": "spawn_exp",
+        "description": "Add Experience randomly",
+        "cooldown": 7
+    },{
+        "id": "spawn_potion",
+        "description": "Add potion randomly",
+        "cooldown": 7
+    }
+]

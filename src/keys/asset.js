@@ -1,0 +1,37 @@
+export const BLOCK_ASSET_KEYS = Object.freeze({
+    BACKGROUND: 'BLOCK_ASSET_KEYS.BACKGROUND',
+    ICON: 'BLOCK_ASSET_KEYS.ICON',
+    BLANK: 'BLOCK_ASSET_KEYS.BLANK',
+});
+
+export const UNIT_ASSET_KEYS = Object.freeze({
+    BACKGROUND: 'UNIT_ASSET_KEYS.BACKGROUND',
+});
+
+export const PANEL_ASSET_KEYS = Object.freeze({
+    BACKGROUND: 'PANEL_ASSET_KEYS.BACKGROUND',
+    ICON: 'PANEL_ASSET_KEYS.ICON',
+    FONT: 'PANEL_ASSET_KEYS.FONT',
+});
+
+export const FONT_ASSET_KEYS = Object.freeze({
+    POINT: 'FONT_ASSET_KEYS.POINT',
+});
+
+export const UI_ASSET_KEYS = Object.freeze({
+    SKILL: 'UI_ASSET_KEYS.TOGGLE',
+    TOGGLE: 'UI_ASSET_KEYS.TOGGLE',
+    BLANK: 'BLOCK_ASSET_KEYS.BLANK',
+    FONT: 'PANEL_ASSET_KEYS.FONT',
+    BUBBLE: 'UI_ASSET_KEYS.BUBBLE',
+});
+
+export const MAP_ASSET_KEYS = Object.freeze({
+    WORLD: 'MAP_ASSET_KEYS.WORLD',
+    UNIT: 'MAP_ASSET_KEYS.UNIT',
+    SELECTION: 'MAP_ASSET_KEYS.SELECTION',
+});
+
+export const DATA_ASSET_KEYS = Object.freeze({
+    SKILL: 'DATA_ASSET_KEYS.SKILL',
+});

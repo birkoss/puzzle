@@ -35,7 +35,6 @@ export class Grid {
     /** @type {(Object) => void} */
     #callbackStreaks;
 
-
     /**
      * @param {Phaser.Scene} scene
      * @param {number} width
@@ -89,10 +88,9 @@ export class Grid {
         }
 
         // Create a mask for the container (Hide reused tiles)
-        // TODO: Fix bottom mask, last tiles trimmed
         const mask = this.#scene.add.graphics()
             .fillStyle(0x000000, 0)
-            .fillRect(this.#container.x, this.#container.y, this.#container.getBounds().width, this.#container.getBounds().height);
+            .fillRect(this.#container.x, this.#container.y, this.#container.getBounds().width+10, this.#container.getBounds().height+10);
         this.#container.mask = new Phaser.Display.Masks.GeometryMask(this.#scene, mask);
 
         // Enable click

@@ -39,18 +39,20 @@ export class Button {
             this.container.setAlpha(0.8);
         });
         this.#background.on('pointerup', () => {
-            if (!this.#isActive) {
+            if (!this.#isActive || !this.#selected) {
                 return;
             }
-            if (this.#selected && callback) {
+
+            this.container.setAlpha(1);
+            this.#selected = false;
+
+            if (callback) {
                 callback();
             }
-            this.#selected = false;
-            this.container.setAlpha(1);
         });
 
         this._scene.input.on('pointerup', (target) => {
-            if (!this.#isActive) {
+            if (!this.#isActive || !this.#selected) {
                 return;
             }
             this.container.setAlpha(1);
@@ -71,13 +73,16 @@ export class Button {
     }
 
     activate() {
+        console.log("ACTIVATE");
         this.#isActive = true;
         this.container.setAlpha(1);
     }
 
     desactivate() {
+        console.log("DESACTIVATE", this.container.alpha);
         this.#isActive = false;
         this.container.setAlpha(0.5);
+        console.log("AFTER: " + this.container.alpha);
     }
 
     setText(text) {

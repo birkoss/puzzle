@@ -357,10 +357,10 @@ export class DungeonScene extends Phaser.Scene {
                                         // do {
 
                                         // } while (this.#panel.shouldLevelUp());
-                                        return;
+                                        // return;
                                     }
 
-                                    this.#canSelect = true;
+                                    this.#endTurn();
                                 }
                             }
                         }
@@ -368,6 +368,14 @@ export class DungeonScene extends Phaser.Scene {
                 }
             }
         }
+    }
+
+
+    #endTurn() {
+        console.log("DUNGEON-SCENE: END TURN");
+        this.#skills.endTurn();
+
+        this.#canSelect = true;
     }
 
     /**

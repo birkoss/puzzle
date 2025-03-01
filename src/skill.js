@@ -29,6 +29,8 @@ export class Skill {
         if (data.cooldown) {
             this.#maxCooldown = data.cooldown;
             this.#cooldown = data.cooldown;
+
+            this.#cooldown = 1;
         }
 
         this.#container = this.#scene.add.container(0, 0);
@@ -37,13 +39,10 @@ export class Skill {
         this.#container.add(icon);
 
         if (this.#cooldown !== -1) {
-            let diff = (this.#maxCooldown - this.#cooldown) / this.#maxCooldown * 360;
-
             this.#graphics = this.#scene.add.graphics();
-            this.#graphics.fillStyle(0x000000, 0.6);
-            this.#graphics.slice(0,0,27,Phaser.Math.DegToRad(-90),Phaser.Math.DegToRad(270+diff), true)
-            this.#graphics.fillPath();
             this.#container.add(this.#graphics);
+
+            this.#updateCooldown();
 
             this.#textCoolDown = this.#scene.add.bitmapText(0, 0, UI_ASSET_KEYS.FONT, this.#cooldown.toString(), 30).setOrigin(0.5);
             this.#container.add(this.#textCoolDown);
@@ -53,5 +52,34 @@ export class Skill {
     get container() { return this.#container; }
     get cooldown() { return this.#cooldown; }
     get description() { return Data.getSkill(this.#scene, this.#id).description; }
+    get id() { return this.#id; }
     get maxCooldown() { return this.#maxCooldown; }
+
+    tick() {
+        if (this.#cooldown === -1) {
+            return;
+        }
+
+        this.#cooldown--;
+
+        this.#textCoolDown.setText(this.#cooldown.toString());
+        
+        this.#updateCooldown();
+    }
+
+    use() {
+        this.#cooldown = this.#maxCooldown;
+        this.#textCoolDown.setText(this.#cooldown.toString());
+        this.#updateCooldown();
+    }
+
+    #updateCooldown() {
+        let diff = (this.#maxCooldown - this.#cooldown) / this.#maxCooldown * 360;
+        this.#graphics.clear();
+        if (this.#cooldown > 0) {
+            this.#graphics.fillStyle(0x000000, 0.6);
+            this.#graphics.slice(0,0,27,Phaser.Math.DegToRad(-90),Phaser.Math.DegToRad(270+diff), true)
+            this.#graphics.fillPath();
+        }
+    }
 }

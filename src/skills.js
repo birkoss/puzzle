@@ -31,18 +31,7 @@ export class Skills {
         this.#skills = [];
 
         this.#toggle = new Toggle((value) => {
-            let cooldown = this.#skills[parseInt(this.#toggle.getSelectedValue())].cooldown;
-
-            if (cooldown === -1) {
-                this.#btnUse.desactivate();
-                this.#btnUse.setText("No activation needed");
-            } else if (cooldown === 0) {
-                this.#btnUse.activate();
-                this.#btnUse.setText("USE SKILL");
-            } else {
-                this.#btnUse.desactivate();
-                this.#btnUse.setText("Wait " + cooldown + " turns");
-            }
+            this.#updateBtnUseLabel();
         });
 
         let frame = this.#scene.add.image(0, 0, BLOCK_ASSET_KEYS.BLANK).setOrigin(0).setTint(0x000000);
@@ -101,7 +90,10 @@ export class Skills {
         let maxWidth = 4 * toggleButton.container.getBounds().width + 3 * 10;
 
         this.#btnUse = new Button(this.#scene, this.#scene.game.scale.width/2 - 33, frame.displayHeight, "USE SKILL", () => {
-            console.log("USE SKILL");
+            this.#skills[parseInt(this.#toggle.getSelectedValue())].use();
+            this.#updateBtnUseLabel();
+            console.log("USE SKILL: " + this.#skills[parseInt(this.#toggle.getSelectedValue())].id);
+            
         });
         this.#btnUse.container.y -= this.#btnUse.container.getBounds().height/2 + 15;
         this.#btnUse.setWidth(maxWidth - 50 - 15);
@@ -112,6 +104,7 @@ export class Skills {
 
         this.#btnHelp = new Button(this.#scene, this.#scene.game.scale.width/2 + 110, frame.displayHeight, "?", () => {
             console.log( this.#toggle.getSelectedValue() );
+            console.log(this.#btnUse.container.alpha);
             
             let description = this.#skills[parseInt(this.#toggle.getSelectedValue())].description;
             if (this.#skills[parseInt(this.#toggle.getSelectedValue())].cooldown === -1) {
@@ -159,6 +152,29 @@ export class Skills {
 
         if (this.#toggle.buttons.length === 1) {
             this.#toggle.select(this.#toggle.buttons[0]);
+        }
+    }
+
+    endTurn() {
+        this.#skills.forEach((skill) => {
+            skill.tick();
+        });
+
+        this.#updateBtnUseLabel();
+    }
+
+    #updateBtnUseLabel() {
+        let cooldown = this.#skills[parseInt(this.#toggle.getSelectedValue())].cooldown;
+        console.log(cooldown);
+        if (cooldown === -1) {
+            this.#btnUse.desactivate();
+            this.#btnUse.setText("No activation needed");
+        } else if (cooldown === 0) {
+            this.#btnUse.activate();
+            this.#btnUse.setText("USE SKILL");
+        } else {
+            this.#btnUse.setText("aWait " + cooldown + " turns");
+            this.#btnUse.desactivate();
         }
     }
 }

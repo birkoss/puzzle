@@ -12,6 +12,7 @@ export class Button {
     /** @type {Boolean} */
     #selected;
     #isActive;
+    #text;
 
     /**
      * @param {Phaser.Scene} scene 
@@ -56,8 +57,8 @@ export class Button {
             this.#selected = false;
         });
 
-        let text = this._scene.add.bitmapText(0, this.#background.y, UI_ASSET_KEYS.FONT, message, 20).setTint(0xffffff).setOrigin(0.5);
-        this._container.add(text);
+        this.#text = this._scene.add.bitmapText(0, this.#background.y, UI_ASSET_KEYS.FONT, message, 20).setTint(0xffffff).setOrigin(0.5);
+        this._container.add(this.#text);
 
         this.#selected = false;
     }
@@ -69,9 +70,18 @@ export class Button {
         this.#background.displayWidth = amount;
     }
 
+    activate() {
+        this.#isActive = true;
+        this.container.setAlpha(1);
+    }
+
     desactivate() {
         this.#isActive = false;
         this.container.setAlpha(0.5);
+    }
+
+    setText(text) {
+        this.#text.setText(text);
     }
 
     /**

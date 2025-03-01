@@ -66,10 +66,16 @@ export class ToggleButton {
      * @param {string} assetKey
      * @param {number} assetFrame
      */
-    add(assetKey, assetFrame) {
+    addIcon(assetKey, assetFrame) {
         this.#image = this.#container.scene.add.image(0, 0, assetKey, assetFrame).setOrigin(0.5);
-        this.#image.setScale(2);
+        this.#image.setScale(3);
         this.#container.add(this.#image);
+        this.#isActive = true;
+        this.#background.setAlpha(1);
+    }
+
+    add(container) {
+        this.#container.add(container);
         this.#isActive = true;
         this.#background.setAlpha(1);
     }

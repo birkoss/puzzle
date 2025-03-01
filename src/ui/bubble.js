@@ -13,6 +13,7 @@ import { UI_ASSET_KEYS } from "../keys/asset.js";
  * @property {number} [minSize.width=0] - Minimum width
  * @property {number} [minSize.height=0] - Minimum height
  * @property {number} [scale=4] - Scale factor for bubble
+ * @property {boolean} [showBackground=false] - Show a background to hide the rest of the screen on click
  */
 
 export class Bubble {
@@ -28,6 +29,21 @@ export class Bubble {
      */
     constructor(config) {
         this.#scene = config.scene;
+
+        const showBackground = config.showBackground || false;
+        if (showBackground) {
+            this.#background = this.#scene.add.image(this.#scene.game.canvas.width/2, this.#scene.game.canvas.height/2, UI_ASSET_KEYS.BLANK).setOrigin(0.5).setTint(0x000000).setAlpha(0.1);
+            this.#background.displayWidth = this.#scene.game.canvas.width;
+            this.#background.displayHeight = this.#scene.game.canvas.height;
+            this.#background.setInteractive();
+            this.#background.on('pointerdown', (pointer, x, y, event) => {
+                event.stopPropagation();
+                this.hide(() => {
+                    this.#background.destroy();
+                    this.#container.removeAll(true);
+                });
+            });
+        }
 
         this.#container = this.#scene.add.container(config.x, config.y);
 
@@ -82,14 +98,7 @@ export class Bubble {
             scaleX: 1,
             scaleY: 1,
             duration: 200,
-            onComplete: () => {
-                this.#scene.add.tween({
-                    targets: this.#background,
-                    alpha: 0.3,
-                    duration: 200,
-                    onComplete: callback,
-                });
-            },
+            onComplete: callback,
         });
     }
 

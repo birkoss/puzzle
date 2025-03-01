@@ -36,6 +36,7 @@ export class DungeonScene extends Phaser.Scene {
 
     /** @type {Panel} */
     #panel;
+    #skills;
 
     constructor() {
         super({
@@ -54,15 +55,22 @@ export class DungeonScene extends Phaser.Scene {
         this.input.on("pointerdown", this.#selectTile, this);
         this.input.on("pointerup", this.#unselectTile, this);
 
-        let skills = new Skills(this, 0, this.game.scale.height);
-        skills.container.y -= skills.container.getBounds().height;
+        this.#skills = new Skills(this, 0, this.game.scale.height);
+        this.#skills.container.y -= this.#skills.container.getBounds().height;
 
-        this.time.delayedCall(800, () => {
-            let popup = new Popup(this, (skillId) => {
-                console.log(skillId);
-            });
-            popup.show();
-        });
+        this.#skills.addSkill("destroy_everything");
+        this.#skills.addSkill("convert_gold_to_exp");
+        this.#skills.addSkill("gold_value");
+
+        // this.time.delayedCall(800, () => {
+        //     let popup = new Popup(this, (skillId) => {
+        //         console.log(skillId);
+        //         this.#skills.addSkill(skillId);
+
+        //         popup.hide();
+        //     });
+        //     popup.show();
+        // });
     }
 
     /**

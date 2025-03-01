@@ -43,7 +43,7 @@ export class Popup {
 
         this.#container = this.#scene.add.container(this.#background.x, this.#background.y);
 
-        this.#text = this.#scene.add.bitmapText(-this.#scene.game.canvas.width, 0, UI_ASSET_KEYS.FONT, "Pick a new skill", 40).setTint(0xfff2e8).setOrigin(0.5).setAlpha(1);
+        this.#text = this.#scene.add.bitmapText(0, 0, UI_ASSET_KEYS.FONT, "Pick a new skill", 40).setTint(0xfff2e8).setOrigin(0.5).setAlpha(1);
         this.#container.add(this.#text);
 
         let btn = new Button(this.#scene, 0, 230, "PICK SKILL", () => {
@@ -73,18 +73,18 @@ export class Popup {
 
         let toggleBotton = new ToggleButton(this.#scene, 0, button_y, UI_ASSET_KEYS.TOGGLE, "0");
         toggleBotton.container.x -= (toggleBotton.container.getBounds().width/2) * 2 + 12;
-        toggleBotton.add(MAP_ASSET_KEYS.WORLD, 32);
+        toggleBotton.addIcon(MAP_ASSET_KEYS.WORLD, 32);
         this.#toggle.add(toggleBotton);
         this.#container.add(toggleBotton.container);
         
         toggleBotton = new ToggleButton(this.#scene, 0, button_y, UI_ASSET_KEYS.TOGGLE, "1");
-        toggleBotton.add(MAP_ASSET_KEYS.WORLD, 33);
+        toggleBotton.addIcon(MAP_ASSET_KEYS.WORLD, 33);
         this.#toggle.add(toggleBotton);
         this.#container.add(toggleBotton.container);
 
         toggleBotton = new ToggleButton(this.#scene, 0, button_y, UI_ASSET_KEYS.TOGGLE, "2");
         toggleBotton.container.x += (toggleBotton.container.getBounds().width/2) * 2 + 12;
-        toggleBotton.add(MAP_ASSET_KEYS.WORLD, 33);
+        toggleBotton.addIcon(MAP_ASSET_KEYS.WORLD, 33);
         this.#toggle.add(toggleBotton);
         this.#container.add(toggleBotton.container);
 
@@ -103,37 +103,38 @@ export class Popup {
         this.#background.displayHeight = 0;
         this.#background.setAlpha(0.8);
 
+        this.#container.setAlpha(0);
+
+        this.#scene.add.tween({
+            targets: this.#container,
+            alpha: 1,
+            duration: 400,
+        });
         this.#scene.add.tween({
             targets: this.#background,
             displayHeight: this.#scene.game.canvas.height,
             duration: 200,
-            onComplete: () => {
-                this.#scene.add.tween({
-                    targets: this.#text,
-                    x: 0,
-                    duration: 200,
-                    onComplete: () => {
-                        return;
-                        this.#scene.time.delayedCall(800, () => {
-                            this.#scene.add.tween({
-                                targets: this.#text,
-                                x: this.#scene.game.canvas.width,
-                                duration: 200,
-                                onComplete: () => {
-                                  
+            onComplete:  callback
+        });
+    }
 
-                                    this.#scene.add.tween({
-                                        targets: this.#background,
-                                        displayHeight: 0,
-                                        duration: 200,
-                                        onComplete: callback,
-                                    });
-                                }
-                            });
-                        });
-                    }
-                });
-            },
+    hide(callback) {
+        this.#scene.add.tween({
+            targets: this.#container,
+            alpha: 0,
+            duration: 400,
+        });
+        this.#scene.add.tween({
+            targets: this.#background,
+            displayHeight: 0,
+            duration: 200,
+            onComplete: () => {
+                this.#container.removeAll(true);
+                this.#background.destroy();
+                if (callback) {
+                    callback();
+                }
+            }
         });
     }
 }

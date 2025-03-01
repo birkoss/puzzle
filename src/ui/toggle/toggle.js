@@ -17,7 +17,7 @@ export class Toggle {
 
         this.#buttons = [];
     }
-
+    
     /** @type {ToggleButton[]} */
     get buttons() {
         return this.#buttons.filter(singleButton => singleButton.isActive);
@@ -26,6 +26,10 @@ export class Toggle {
     /** @type {any} */
     get value() {
         return this.#buttons.find(singleButton => singleButton.isSelected).value;
+    }
+
+    getAllButtons() {
+        return this.#buttons;
     }
 
     getSelectedValue() {

@@ -36,6 +36,8 @@ export class Skills {
     /** @type {(skillId: string) => void} */
     #callback;
 
+    #canClick;
+
     /**
      * @param {Phaser.Scene} scene
      * @param {number} x
@@ -47,6 +49,8 @@ export class Skills {
         this.#container = scene.add.container(x, y);
         this.#callback = callback;
         this.#skills = [];
+
+        this.#canClick = true;
 
         this.#initializeToggle();
         this.#createBackground();
@@ -74,6 +78,14 @@ export class Skills {
         }
     }
 
+    disableClick() {
+        this.#canClick = false;
+    }
+
+    enableClick() {
+        this.#canClick = true;
+    }
+
     endTurn() {
         this.#skills.forEach((skill) => {
             skill.tick();
@@ -91,6 +103,9 @@ export class Skills {
             Skills.CONFIG.PANEL_HEIGHT,
             "USE SKILL",
             () => {
+                if (!this.#canClick) {
+                    return;
+                }
                 this.#skills[parseInt(this.#toggle.getSelectedValue())].use();
                 this.#updateBtnUseLabel();
                 if (this.#callback) {
@@ -110,6 +125,9 @@ export class Skills {
             Skills.CONFIG.PANEL_HEIGHT,
             "?",
             () => {
+                if (!this.#canClick) {
+                    return;
+                }
                 let description = this.#skills[parseInt(this.#toggle.getSelectedValue())].description;
                 if (this.#skills[parseInt(this.#toggle.getSelectedValue())].cooldown === -1) {
                     description += "\n\nThis is a passive skill.";

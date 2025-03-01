@@ -65,7 +65,7 @@ export class Skill {
             return;
         }
 
-        this.#cooldown--;
+        this.#cooldown = Math.max(0, this.#cooldown-1);
 
         this.#textCoolDown.setText(this.#cooldown.toString());
         

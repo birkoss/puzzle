@@ -6,35 +6,34 @@ export class Block {
     /** @type {Phaser.GameObjects.Container} */
     #container;
     /** @type {Phaser.GameObjects.Sprite} */
-    #background;
-    /** @type {Phaser.GameObjects.Sprite} */
     #icon;
     /** @type {number} */
     #value;
+    /** @type {Phaser.GameObjects.BitmapText} */
     #text;
 
-    constructor(container, background, icon) {
+    /**
+     * @param {Phaser.GameObjects.Container} container
+     * @param {Phaser.GameObjects.Sprite} icon
+     */
+    constructor(container, icon) {
         this.#color = -1;
         this.#value = 1;
 
         this.#container = container;
-        this.#background = background;
         this.#icon = icon;
     }
 
-    get background() { return this.#background; }
     get color() { return this.#color; }
     get container() { return this.#container; }
     get icon() { return this.#icon; }
     get value() { return this.#value; }
 
     highlight() {
-        // this.#background.setFrame(1);
         this.#icon.setScale(1.2);
     }
     
     unhighlight() {
-        // this.#background.setFrame(0);
         this.#icon.setScale(1);
     }
 
@@ -53,6 +52,9 @@ export class Block {
         this.#text.destroy();
     }
 
+    /**
+     * @param {Phaser.GameObjects.BitmapText} text
+     */
     showValue(text) {
         this.#text = text;
         this.#container.add(this.#text);

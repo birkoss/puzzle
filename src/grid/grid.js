@@ -1,6 +1,6 @@
 import { BLOCK_ASSET_KEYS, FONT_ASSET_KEYS, MAP_ASSET_KEYS } from "../keys/asset.js";
 import { Block } from "./block.js";
-import { Tile } from "./tile.js";
+import { Tile, TILE_TYPE } from "./tile.js";
 
 const TILE_SIZE = 36;
 
@@ -32,8 +32,10 @@ export class Grid {
     #callbackTileSelected;
     /** @type {() => void} */
     #callbackEndOfTurn;
-    /** @type {(Object) => void} */
+    /** @type {(points:Object) => void} */
     #callbackStreaks;
+
+    #colors;
 
     /**
      * @param {Phaser.Scene} scene
@@ -50,6 +52,7 @@ export class Grid {
         this.#tiles = [];
         this.#blocksPooled = [];
         this.#selectedTile = null;
+        this.#colors = [];
     }
 
     create() {
@@ -98,7 +101,26 @@ export class Grid {
         this.#scene.input.on("pointerup", this.#unselectTile, this);
     }
 
+    generateColors(extraColors = []) {
+        this.#colors = [];
+
+        const colors = [ TILE_TYPE.POTION, TILE_TYPE.GOLD, TILE_TYPE.EXP, TILE_TYPE.MONSTER ];
+        colors.forEach((singleColor) => {
+            for (let i=0; i<1; i++) {
+                this.#colors.push(singleColor);
+            }
+        });
+
+        extraColors.forEach((singleColor) => {
+            for (let i=0; i<1; i++) {
+                this.#colors.push(singleColor);
+            }
+        });
+    }
+
     reset() {
+        let colors = this.#colors.filter((singleColor) => singleColor !== TILE_TYPE.MONSTER);
+
         for (let y = 0; y < this.#height; y++) {
             for(let x = 0; x < this.#width; x++) {
                 let tile = this.#getTileAt(x, y);
@@ -110,7 +132,7 @@ export class Grid {
                 do {
                     console.log("RETRY...");
                     maxTries--;
-                    tile.block.updateColor(this.#generateRandomColor(2));
+                    tile.block.updateColor(parseInt(colors[Phaser.Math.Between(0, colors.length-1)]));
                 } while(this.#isMatchAt(x, y) && maxTries > 0);
             }
         }
@@ -126,6 +148,8 @@ export class Grid {
      * Add new tiles to the top of the grid from the block pool
      */
     #addNewTiles() {
+        const colors = this.#colors;
+
         for(let x = 0; x < this.#width; x++) {
             let holes = this.#getHolesBelow(x);
             if (holes > 0) {
@@ -137,7 +161,7 @@ export class Grid {
 
                     tile.block = this.#blocksPooled.pop();
 
-                    tile.block.updateColor(this.#generateRandomColor());
+                    tile.block.updateColor(parseInt(colors[Phaser.Math.Between(0, colors.length-1)]));
                     tile.block.icon.setAlpha(1);
 
                     tile.block.container.visible = true;
@@ -278,16 +302,6 @@ export class Grid {
         }
 
         this.#animateStreakTiles(streaks, currentStreak);
-    }
-
-    /**
-     * Pick a random color from the available colors
-     * - Used to pick an icon for the tile's block
-     * @returns {number}
-     */
-    #generateRandomColor(limit = 3) {
-        // TODO: Make sure the total number of index is dynamic
-        return Phaser.Math.Between(0, limit);
     }
 
     /**

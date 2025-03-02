@@ -12,6 +12,14 @@ import { Block } from "./block.js";
  * @property {boolean} toRemove
  */
 
+export const TILE_TYPE = Object.freeze({
+    POTION: '0',
+    GOLD: '1',
+    EXP: '2',
+    MONSTER: '3',
+});
+
+
 export class Tile {
     /** @type {TilePosition} */
     #position;

@@ -4,6 +4,7 @@ import { SCENE_KEYS } from "../keys/scene.js";
 import { Panel } from "../ui/panel.js";
 import { Skills } from "../skills.js";
 import { Grid } from "../grid/grid.js";
+import { TILE_TYPE } from "../grid/tile.js";
 
 export class DungeonScene extends Phaser.Scene {
     // TODO: Create a panel class to inherit both
@@ -32,6 +33,7 @@ export class DungeonScene extends Phaser.Scene {
             this.#endTurn.bind(this)
         );
         this.#grid.create();
+        this.#grid.generateColors();
         this.#grid.reset();
 
         this.#panel = new Panel(this, 0, 0);
@@ -41,7 +43,9 @@ export class DungeonScene extends Phaser.Scene {
 
         this.#skills.addSkill("destroy_everything");
         this.#skills.addSkill("convert_gold_to_exp");
-        this.#skills.addSkill("gold_value");
+        this.#skills.addSkill("more_gold");
+
+        this.#grid.generateColors([TILE_TYPE.GOLD]);
     }
 
     /**
